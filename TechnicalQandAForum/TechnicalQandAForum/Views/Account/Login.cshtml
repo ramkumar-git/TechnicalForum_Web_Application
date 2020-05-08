@@ -1,0 +1,52 @@
+﻿@model TechnicalQandAForum.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row justify-content-center ">
+    <div class="col-sm-6">
+        <h3 class="card-header bg-info text-light text-center mt-4">Login</h3>
+        <form novalidate="novalidate" class="log-validate box" id="log-form" method="post" action="/account/login">
+            @Html.AntiForgeryToken()
+            <div class="form-row">
+                <div class="col-sm-12 form-group">
+                    <label for="txtEmail">Email</label>
+                    <input type="email" class="form-control" name="Email" id="txtEmail" value="@Model.Email"
+                           autofocus="autofocus" placeholder="Email" required="required" />
+                    <div class="valid-feedback">Looks Good</div>
+                    <div class="invalid-feedback">Invalid Email</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-12 form-group">
+                    <label for="txtPassword">Password</label>
+                    <input type="password" class="form-control" name="Password" id="txtPassword" placeholder="Password"
+                           value="@Model.Password" minlength="6" required="required" oninput=validateConfirmPassword() />
+                    <div class="valid-feedback">Looks Good</div>
+                    <div class="invalid-feedback">Password must contain atleast 6 characters</div>
+                </div>
+            </div>
+            <div class="text-center"><button id="btnSubmit" class="btn btn-success">Login</button></div>
+            <div class="text-danger">
+                @Html.ValidationSummary()
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("a[href='/account/login']").attr("Id", "active");
+
+    $(document).on("submit", ".log-validate", validate);
+    $(".log-validate input").blur(validate);
+
+
+    function validate(event) {
+        if ($(".log-validate")[0].checkValidity() == false) {
+            event.preventDefault();
+        }   
+        $(".log-validate")[0].classList.add("was-validated");
+    }
+
+</script>
+

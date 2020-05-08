@@ -1,0 +1,13 @@
+﻿#active {
+    color: blue !important;
+    font-weight: bold;
+}
+
+.box {
+    border: 2px solid darkgrey;
+    padding: 30px;
+}
+
+.hidden {
+    display: none;
+}

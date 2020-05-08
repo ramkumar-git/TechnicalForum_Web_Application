@@ -1,0 +1,21 @@
+﻿@using TechnicalQandAForum.ViewModels;
+@model QuestionViewModel
+<tr>
+    <td><span class="badge badge-secondary">@Model.VotesCount</span> votes</td>
+    <td><span class="badge badge-secondary">@Model.AnswersCount</span> answers</td>
+    <td><span class="badge badge-secondary">@Model.ViewsCount</span> views</td>
+    <td class="text-dark">
+        <a href="/questions/view/@Model.QuestionId" class="text-primary">@Model.QuestionName</a><br />
+        <span class="badge badge-info">@Model.Category.CategoryName</span>
+    </td>
+
+    @if (Convert.ToInt32(Session["CurrentUserId"]) != Model.UserId)
+    {
+        <td>by @Model.User.Name</td>
+    }
+    else
+    {
+        <td>by you</td>
+    }
+    <td>on @Model.QuestionDateAndTime</td>
+</tr>

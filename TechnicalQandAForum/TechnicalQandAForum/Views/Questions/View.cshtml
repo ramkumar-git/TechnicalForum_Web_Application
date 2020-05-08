@@ -1,0 +1,265 @@
+﻿@model TechnicalQandAForum.ViewModels.QuestionViewModel
+@{
+    ViewBag.Title = "View Question";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header bg-white">
+                <div class="form-group form-row">
+                    <div class="col-sm-12">
+                        <h3>@Model.QuestionName</h3>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <span class="badge badge-info">@Model.Category.CategoryName</span>
+                            </div>
+                            <div class="col-sm-2 text-info">
+                                @if (Convert.ToInt32(Session["CurrentUserId"]) != Model.UserId)
+                                {
+                                    @:by @Model.User.Name
+                                }
+                                else
+                                {
+                                    @:by you
+                                }
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="text-success">on @Model.QuestionDateAndTime</span>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="badge badge-pill badge-success">@Model.ViewsCount</span>
+                                <span> Views</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-header">Answers</div>
+                    <div class="row card-body">
+                        @if (Model.AnswersCount == 0)
+                        {
+                            <span class="text-danger">No answers yet</span>
+                        }
+                        else
+                        {
+                            foreach (var ans in Model.Answers)
+                            {
+                                if (Convert.ToInt32(Session["CurrentUserId"]) != ans.UserId)
+                                {
+                                    <div class="col-sm-5 pt-3">
+                                        @ans.AnswerText
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm-4 pt-3">
+                                        <p class="answer">@ans.AnswerText</p>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <button type="button" class="btn btn-info editbutton mt-3" data-toggle="modal" data-target="#EditAnswerModal_@ans.AnswerId">
+                                            Edit
+                                        </button>
+
+                                        <!-- Edit Answer Modal -->
+                                        <form action="/questions/editanswer" method="post" id="editForm_@ans.AnswerId">
+                                            <div class="modal fade" id="EditAnswerModal_@ans.AnswerId" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editAnswerTitle">Edit your answer</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <div class="form-group form-row">
+                                                                <div class="col-sm-12" id="@ans.AnswerId">
+                                                                    @Html.AntiForgeryToken()
+                                                                    <input type="hidden" name="AnswerId" value="@ans.AnswerId" />
+                                                                    <input type="hidden" name="QuestionId" value="@ans.QuestionId" />
+                                                                    <div class="form-row">
+                                                                        <div class="form-group col-sm-12">
+                                                                            <textarea class="form-control txtarea-answer" id="txtAnswer_@ans.AnswerId" placeholder="Enter answer" name="AnswerText" required="required">@ans.AnswerText</textarea>
+                                                                            <input type="hidden" id="actualAnswer_@ans.AnswerId" class="actualAnswer" value="@ans.AnswerText" />
+                                                                            <div class="valid-feedback" id="valid_@ans.AnswerId">
+                                                                                Looks good!
+                                                                            </div>
+                                                                            <div class="invalid-feedback" id="invalid_@ans.AnswerId">
+                                                                                Please enter answer.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="text-danger" id="errorSummary_@ans.AnswerId">
+                                                                        @Html.ValidationSummary()
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary" data-formid="editForm_@ans.AnswerId">Update Answer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                }
+                                <div class="col-sm-2 pt-3">
+                                    @if (Convert.ToInt32(Session["CurrentUserId"]) != ans.UserId)
+                                    {
+                                        @:by @ans.User.Name
+                                    }
+                                    else
+                                    {
+                                        @:by you
+                                    }
+                                </div>
+                                <div class="col-sm-3  pt-3">
+                                    on @ans.AnswerDateAndTime
+                                </div>
+                                <div class="col-sm-2 pt-3">
+                                    <span class="badge badge-secondary votescount col-2">@ans.VotesCount</span>
+                                    <span> Votes</span>
+                                    @if (Session["CurrentUserName"] != null && Convert.ToInt32(Session["CurrentUserId"]) != ans.UserId)
+                                    {
+                                        if (ans.CurrentUserVoteType == 1)
+                                        {
+                                            <img src="~/Images/up-color.png" class="btnUpVote"
+                                                 style="cursor:pointer" width="24" data-answerid=@ans.AnswerId />
+                                            <img src="~/Images/down-empty.png" class="btnDownVote"
+                                                 style="cursor:pointer" width="24" data-answerid=@ans.AnswerId />
+                                        }
+                                        else if (ans.CurrentUserVoteType == -1)
+                                        {
+                                            <img src="~/Images/up-empty.png" class="btnUpVote"
+                                                 style="cursor:pointer" width="24" data-answerid=@ans.AnswerId />
+                                            <img src="~/Images/down-color.png" class="btnDownVote"
+                                                 style="cursor:pointer" width="24" data-answerid=@ans.AnswerId />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Images/up-empty.png" class="btnUpVote"
+                                                 style="cursor:pointer" width="24" data-answerid=@ans.AnswerId />
+                                            <img src="~/Images/down-empty.png" class="btnDownVote"
+                                                 style="cursor:pointer" width="24" data-answerid=@ans.AnswerId />
+                                        }
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                @if (Session["CurrentUsername"] != null)
+                {
+                    <form class="needs-validation" novalidate="novalidate" action="/questions/addanswer" method="post" id="newForm">
+                        <div class="form-group form-row">
+                            <div class="col-sm-12">
+                                <h4 class="mt-3">Add your answer</h4>
+
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="QuestionId" value="@Model.QuestionId" />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-12">
+                                        <textarea class="form-control" id="txtAnswer" placeholder="Enter answer" name="AnswerText" required="required" data-pattern="[A-z0-9 ,-]{1,}"></textarea>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter answer.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" data-formid="newForm">Add Answer</button>
+                                <div class="text-danger">
+                                    @Html.ValidationSummary()
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("a[href='/questions/view']").addClass("active");
+
+    $(document).on("submit", ".needs-validation", validate);
+    $(".needs-validation input").blur(validate);
+    function validate(event) {
+        if ($(".needs-validation")[0].checkValidity() == false) {
+            event.preventDefault();
+        }
+        $(".needs-validation")[0].classList.add("was-validated");
+    }
+</script>
+<script>
+$(".btnUpVote").click(function ()
+{
+    var UpBtn = $(this);
+    var DownBtn = UpBtn.parent().find(".btnDownVote");
+    var value;
+    if (UpBtn.attr("src") == "/Images/up-empty.png")
+    {
+        if ((UpBtn.attr("src") == "/Images/up-empty.png") && (DownBtn.attr("src") == "/Images/down-empty.png"))
+        {
+            value = 1;
+        }
+        else {
+            value = 2;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/api/questions?answerid=" + UpBtn.attr("data-answerid") + "&value=" + value + "&userid=" +@Session["CurrentUserId"],
+            success: function () {
+            UpBtn.parent().find(".votescount").text(parseInt(UpBtn.parent().find(".votescount").text()) + value);
+            UpBtn.attr("src", "/Images/up-color.png");
+                DownBtn.attr("src", "/Images/down-empty.png");
+            }
+        });
+    }
+});
+
+$(".btnDownVote").click(function ()
+{
+    var DownBtn = $(this);
+    var UpBtn = DownBtn.parent().find(".btnUpVote");
+    var value;
+    if (DownBtn.attr("src") == "/Images/down-empty.png")
+    {
+        if ((UpBtn.attr("src") == "/Images/up-empty.png") && (DownBtn.attr("src") == "/Images/down-empty.png"))
+        {
+            value = -1;
+        }
+        else {
+            value = -2;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/api/questions?answerid=" + UpBtn.attr("data-answerid") + "&value=" + value + "&userid=" +@Session["CurrentUserId"],
+            success: function ()
+            {
+                DownBtn.parent().find(".votescount").text(parseInt(UpBtn.parent().find(".votescount").text()) + value);
+                DownBtn.attr("src", "/Images/down-color.png");
+                UpBtn.attr("src", "/Images/up-empty.png");
+            }
+        });
+    }
+});
+
+    $(".editbutton").click(function () {
+        $(this).parent().find(".txtarea-answer").val($(this).parent().find(".actualAnswer").val());
+    });
+
+</script>

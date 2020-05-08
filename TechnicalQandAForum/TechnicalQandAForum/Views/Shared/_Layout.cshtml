@@ -1,0 +1,91 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="~/Images/favicon.ico">
+    <title>@ViewBag.Title - Tech Forum</title>
+    @Styles.Render("~/Styles/bootstrap")
+    @Styles.Render("~/Styles/site")
+    @*@Scripts.Render("~/Scripts/bootstrap")*@
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    @*@Scripts.Render("~/Scripts/bootstrap")*@
+</head>
+<body>
+
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+            <a class="navbar-brand" href="/"><img src="~/Images/Forum_Icon.png" width="180" /></a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavBar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavBar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/allquestions">Questions</a>
+                    </li>
+
+                    @if (Session["CurrentUserName"] == null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account/register">Register</a>
+                        </li>
+                    }
+                    @if (Session["CurrentUserName"] != null)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                                <img src="~/Images/user.png" width="20" />
+                                @Session["CurrentUserName"]
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/account/logout">Logout</a>
+                                <a class="dropdown-item" href="/account/changeProfile">Change Profile</a>
+                                <a class="dropdown-item" href="/account/changePassword">Change Password</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                <form class="form-inline" action="/home/search" method="get">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            @if(ViewBag.str != null)
+                            {
+                            <input class="form-control mr-sm-3" name="str" type="search" placeholder="Search" value="@ViewBag.str" aria-label="Search">
+                            }else{
+                            <input class="form-control mr-sm-3" name="str" type="search" placeholder="Search" aria-label="Search">
+                            }
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </nav>
+
+        @RenderBody()
+    </div>
+</body>
+</html>

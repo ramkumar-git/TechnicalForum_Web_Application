@@ -1,0 +1,34 @@
+﻿@using TechnicalQandAForum.ViewModels;
+@model List<QuestionViewModel>
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="jumbotron">
+            <h2>Ready, Learn, Share!</h2>
+            <h5>Interact with Tech experts to grow your knowledge and also help others to solve their problems by providing your valuable solutions</h5>
+            <p class="lead">Join this developer community now</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table">
+            @foreach (var ques in Model)
+            {
+                Html.RenderPartial("Question", ques);
+            }
+        </table>
+        @if (Session["CurrentUserName"] != null)
+        {
+            <a class="btn btn-primary" href="/questions/create">Add Question</a>
+        }
+    </div>
+</div>
+
+<script>
+    $("a[href='/']").attr("Id", "active")
+</script>

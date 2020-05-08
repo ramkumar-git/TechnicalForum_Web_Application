@@ -1,0 +1,11 @@
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\bin\Debug\TechnicalQandAForum.ViewModels.dll.config
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\bin\Debug\TechnicalQandAForum.ViewModels.dll
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\bin\Debug\TechnicalQandAForum.ViewModels.pdb
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\bin\Debug\EntityFramework.dll
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\bin\Debug\EntityFramework.SqlServer.dll
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\bin\Debug\EntityFramework.xml
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\bin\Debug\EntityFramework.SqlServer.xml
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\obj\Debug\TechnicalQandAForum.ViewModels.csproj.CoreCompileInputs.cache
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\obj\Debug\TechnicalQandAForum.ViewModels.csproj.CopyComplete
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\obj\Debug\TechnicalQandAForum.ViewModels.dll
+E:\HandsOn\Dot_Net_MVC\Technical_Q&A_Web_Application\TechnicalQandAForum\TechnicalQandAForum\TechnicalQandAForum.ViewModels\obj\Debug\TechnicalQandAForum.ViewModels.pdb

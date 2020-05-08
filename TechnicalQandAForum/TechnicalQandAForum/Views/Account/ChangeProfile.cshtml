@@ -1,0 +1,55 @@
+﻿@model TechnicalQandAForum.ViewModels.EditUserDetailsViewModel
+@{
+    ViewBag.Title = "ChangeProfile";
+}
+
+<div class="row justify-content-center">
+    <div class="col-sm-6">
+        <h3 class="card-header bg-info text-light text-center mt-4">Change Profile</h3>
+        <form novalidate="novalidate" class="profile-validate box" id="profile-form" method="post" action="/account/changeprofile">
+            @Html.AntiForgeryToken()
+            <div class="form-row">
+                <div class="col-sm-12 form-group">
+                    <label for="txtName">Name</label>
+                    <input type="text" class="form-control" name="Name" id="txtName" value="@Model.Name"
+                           placeholder="Enter name" pattern="^[a-zA-z ]*$" required="required" autofocus="autofocus" />
+                    <div class="valid-feedback">Looks Good</div>
+                    <div class="invalid-feedback">Please enter valid name (alphabets only)</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-12 form-group">
+                    <label for="txtMobile">Mobile</label>
+                    <input type="text" class="form-control" name="Mobile" id="txtMobile" value="@Model.Mobile"
+                           placeholder="Mobile" pattern="^\d{10}$" required="required" />
+                    <div class="valid-feedback">Looks Good</div>
+                    <div class="invalid-feedback">Please enter 10 digits mobile number</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-12 form-group">
+                    <label>Email</label>
+                    <input type="text" disabled="disabled" class="form-control" name="Email" id="txtEmail" value="@Model.Email" />
+                    @Html.HiddenFor(p => p.Email)
+                </div>
+            </div>
+            <div class="text-center"><button id="btnSubmit" class="btn btn-success">Update profile</button></div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    $("a[href='/account/changeprofile']").attr("Id", "active");
+
+    $(document).on("submit", ".profile-validate", validate);
+
+    function validate(event) {
+        if ($(".profile-validate")[0].checkValidity() == false) {
+            event.preventDefault();
+        }
+        $(".profile-validate")[0].classList.add("was-validated");
+    }
+
+</script>
+
